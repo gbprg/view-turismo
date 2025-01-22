@@ -8,6 +8,7 @@ import { Card } from "../ui/Card"
 import { CardHeader } from "../ui/CardHeader"
 import { CardTitle } from "../ui/CardTitle"
 import { CardContent } from "../ui/CardContent"
+import { ButtonCard } from "../ui/ButtonCard"
 
 export const TourList = () => {
   const { data: tours, isLoading, error } = useQuery({
@@ -49,6 +50,9 @@ export const TourList = () => {
               R$ {tour.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
             </p>
           </CardContent>
+          <ButtonCard className="bg-red-500 text-white hover:bg-red-600">
+            Comprar
+          </ButtonCard>
         </Card>
       ))}
     </div>
