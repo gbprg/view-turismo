@@ -4,10 +4,10 @@ import { TourService } from "@/services/tourService/route"
 import { useQuery } from "@tanstack/react-query"
 
 import Image from "next/image"
-import { Card } from "../Card"
-import { CardHeader } from "../CardHeader"
-import { CardTitle } from "../CardTitle"
-import { CardContent } from "../CardContent"
+import { Card } from "../ui/Card"
+import { CardHeader } from "../ui/CardHeader"
+import { CardTitle } from "../ui/CardTitle"
+import { CardContent } from "../ui/CardContent"
 
 export const TourList = () => {
   const { data: tours, isLoading, error } = useQuery({

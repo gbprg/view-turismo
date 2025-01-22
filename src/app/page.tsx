@@ -1,4 +1,4 @@
-import { TourList } from "@/components/ui/tourList";
+import { TourList } from "@/components/tourList";
 
 export default function Home() {
   return (
