@@ -4,11 +4,12 @@ import { TourService } from "@/services/tourService/route"
 import { useQuery } from "@tanstack/react-query"
 
 import Image from "next/image"
-import { Card } from "../ui/Card"
+import Card from "../ui/Card"
 import { CardHeader } from "../ui/CardHeader"
 import { CardTitle } from "../ui/CardTitle"
-import { CardContent } from "../ui/CardContent"
+import CardContent from "../ui/CardContent"
 import { ButtonCard } from "../ui/ButtonCard"
+import Link from "next/link"
 
 export const TourList = () => {
   const { data: tours, isLoading, error } = useQuery({
@@ -50,9 +51,11 @@ export const TourList = () => {
               R$ {tour.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
             </p>
           </CardContent>
-          <ButtonCard className="bg-red-500 text-white hover:bg-red-600">
-            Comprar
-          </ButtonCard>
+          <Link href={`/tour/${tour.id}`}>
+            <ButtonCard className="text-white text-center ">
+              Comprar
+            </ButtonCard>
+          </Link>
         </Card>
       ))}
     </div>

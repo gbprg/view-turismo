@@ -1,16 +1,11 @@
-import { cn } from "@/app/utils/lib"
-
-export const Card = ({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) => {
+export default function Card({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
-    <div
-      className={cn(
-        "rounded-lg border bg-card text-card-foreground shadow-sm",
-        className
-      )}
-      {...props}
-    />
+    <div className="rounded-lg border bg-card text-card-foreground shadow-sm">
+      {children}
+    </div>
   )
 }

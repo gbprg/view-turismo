@@ -1,13 +1,12 @@
-import { cn } from "@/app/utils/lib"
-
-export const CardContent = ({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) => {
+export default function CardContent({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
-    <div
-      className={cn("p-6 pt-0", className)}
-      {...props}
-    />
+    <div className="p-6 pt-0">
+      {children}
+    </div>
   )
+
 }
