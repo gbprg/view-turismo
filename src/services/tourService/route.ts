@@ -7,8 +7,8 @@ export const TourService = {
     return response.data;
   },
 
-  getTourById: async (id: string): Promise<Tour[]> => {
-    const response = await api.get<Tour[]>(`/tours/${id}`);
+  getTourById: async (id: string): Promise<Tour> => {
+    const response = await api.get<Tour>(`/tours/${id}`);
     return response.data;
   },
 

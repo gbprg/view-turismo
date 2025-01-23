@@ -1,3 +1,8 @@
+export type TourImage = {
+  id: string;
+  image: string;
+}
+
 export type Tour = {
   id: string;
   title: string;
@@ -5,6 +10,7 @@ export type Tour = {
   price: number;
   image: string;
   status_promotion: boolean;
+  images: TourImage[];
 };
 
 export type Driver = {

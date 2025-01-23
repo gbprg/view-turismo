@@ -4,7 +4,7 @@ export default function CardContent({
   children: React.ReactNode
 }) {
   return (
-    <div className="p-6 pt-0">
+    <div className="p-3">
       {children}
     </div>
   )

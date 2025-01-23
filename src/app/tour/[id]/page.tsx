@@ -11,6 +11,8 @@ import { useState } from "react";
 import { toast } from "sonner";
 import DatePicker from "react-datepicker";
 import CardContent from "@/components/ui/CardContent";
+import { Carousel } from "@/components/ui/Carousel";
+import { TourImage } from "@/types/Tour";
 
 export default function TourDetails() {
   const { id } = useParams();
@@ -40,23 +42,23 @@ export default function TourDetails() {
     return <TourDetailsSkeleton />;
   }
 
-  if (tourError) {
-    return <div>Erro ao carregar os detalhes do passeio.</div>;
-  }
+  if (tourError) return <div>Erro ao carregar os detalhes do passeio.</div>;
 
-  if (!tour) {
-    return <div>Passeio não encontrado</div>;
-  }
+  if (!tour) return <div>Passeio não encontrado</div>;
+
+  const mainImage = tour.image || '';
+  const galleryImages = tour.images?.map((img: TourImage) => img.image) || [];
+  const images = [mainImage, ...galleryImages].filter(Boolean);
 
   return (
     <div className="container mx-auto py-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Tour Info */}
         <div className="relative w-full h-[400px] rounded-lg overflow-hidden">
-          {tour[0].image ? (
+          {mainImage ? (
             <Image
-              src={tour[0].image}
-              alt={tour[0].title || "Imagem do passeio"}
+              src={mainImage}
+              alt={tour.title || "Imagem do passeio"}
               fill
               className="object-cover"
             />
@@ -65,30 +67,34 @@ export default function TourDetails() {
               <p className="text-gray-500">Imagem não disponível</p>
             </div>
           )}
-          {tour[0].status_promotion && (
+          {tour.status_promotion && (
             <span className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full">
               Promoção
             </span>
           )}
+          <Carousel
+            images={images}
+            title={tour.title}
+          />
         </div>
 
         {/* Tour Details */}
         <div>
-          <h1 className="text-3xl font-bold mb-4">{tour[0].title}</h1>
-          <p className="text-gray-600 mb-6">{tour[0].description}</p>
+          <h1 className="text-3xl font-bold mb-4">{tour.title}</h1>
+          <p className="text-gray-600 mb-6">{tour.description}</p>
           <div className="text-2xl font-bold mb-8">
-            R$ {tour[0].price?.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
+            R$ {tour.price?.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
           </div>
 
           {/* Calendário */}
           <div className="mb-4">
-            <label className="block text-gray-700 font-semibold mb-2">Escolha uma data:</label>
+            <label className="block text-white font-semibold mb-2">Escolha uma data:</label>
             <DatePicker
               selected={selectedDate}
               onChange={(date) => setSelectedDate(date)}
               dateFormat="dd/MM/yyyy"
               minDate={new Date()} // Não permite datas no passado
-              className="border rounded px-4 py-2"
+              className="border rounded px-4 py-2 text-black"
               placeholderText="Selecione uma data"
             />
           </div>
@@ -98,22 +104,23 @@ export default function TourDetails() {
             <h2 className="text-xl font-semibold mb-4">Horários Disponíveis</h2>
             {schedulesLoading && <div>Carregando horários...</div>}
             {schedulesError && <div>Erro ao carregar horários disponíveis.</div>}
-            {(!schedulesLoading && schedules && schedules.length) && (
+            {(!schedulesLoading && (!schedules || schedules.length === 0)) && (
               <div>Nenhum horário disponível para esta data.</div>
             )}
             {(!schedulesLoading && schedules && schedules.length > 0) && (
               <div className="grid gap-4">
-                {schedules?.map((schedule) => (
+                {schedules.map((schedule) => (
                   <Card key={schedule.id}>
                     <CardContent>
                       <div className="flex justify-between items-center">
                         <div>
                           <div className="font-medium">
-                            {(schedule.time.replaceAll(" ", "").split(",").map((x) => (
-                              <div key={x}>
-                                {x}
-                              </div>
-                            )))}
+                            {schedule.time
+                              .replaceAll(" ", "")
+                              .split(",")
+                              .map((x) => (
+                                <div key={x}>{x}</div>
+                              ))}
                           </div>
                           <p className="text-sm text-gray-500">
                             Motorista: {schedule.driver.name}
