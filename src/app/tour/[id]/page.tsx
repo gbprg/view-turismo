@@ -3,8 +3,6 @@
 import { TourDetailsSkeleton } from "@/components/skeleton/tourDetails";
 import { Button } from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
-import { TourService } from "@/services/tourService/route";
-import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useState } from "react";
@@ -13,30 +11,19 @@ import DatePicker from "react-datepicker";
 import CardContent from "@/components/ui/CardContent";
 import { Carousel } from "@/components/ui/Carousel";
 import { TourImage } from "@/types/Tour";
+import { useTourQuery } from "@/hooks/useTourQuery";
 
 export default function TourDetails() {
   const { id } = useParams();
   const tourId = String(id);
-
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
-  const { data: tour, isLoading: tourLoading, error: tourError } = useQuery({
+  const { data: tour, isLoading: tourLoading, error: tourError } = useTourQuery.useGetTourById(tourId);
 
-    queryKey: ["tours", tourId],
-    queryFn: () => TourService.getTourById(tourId),
-  });
-
-  console.log(tour)
-  const { data: schedules, isLoading: schedulesLoading, error: schedulesError } = useQuery({
-    queryKey: ["schedules", tourId, selectedDate?.toISOString().split("T")[0]],
-    queryFn: () => {
-      if (selectedDate) {
-        return TourService.getTourSchedules(tourId, selectedDate.toISOString().split("T")[0]);
-      }
-      return [];
-    },
-    enabled: !!selectedDate,
-  });
+  const { data: schedules, isLoading: schedulesLoading, error: schedulesError } = useTourQuery.useGetTourSchedules(
+    tourId,
+    selectedDate?.toISOString().split("T")[0]
+  );
 
   if (tourLoading) {
     return <TourDetailsSkeleton />;
@@ -125,6 +112,7 @@ export default function TourDetails() {
                           <p className="text-sm text-gray-500">
                             Motorista: {schedule.driver.name}
                           </p>
+                          <p className="text-sm text-gray-500">Veículo: {schedule.driver.vehicle}</p>
                           <p className="text-sm text-gray-500">
                             Assentos disponíveis: {schedule.available_seats}
                           </p>

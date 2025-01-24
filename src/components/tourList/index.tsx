@@ -1,22 +1,16 @@
 "use client"
 
-import { TourService } from "@/services/tourService/route"
-import { useQuery } from "@tanstack/react-query"
-
 import Image from "next/image"
 import Card from "../ui/Card"
-import { CardHeader } from "../ui/CardHeader"
-import { CardTitle } from "../ui/CardTitle"
+import CardHeader from "../ui/CardHeader"
+import CardTitle from "../ui/CardTitle"
 import CardContent from "../ui/CardContent"
 import { ButtonCard } from "../ui/ButtonCard"
 import Link from "next/link"
+import { useTourQuery } from "@/hooks/useTourQuery"
 
 export const TourList = () => {
-  const { data: tours, isLoading, error } = useQuery({
-    queryKey: ["tours"],
-    queryFn: TourService.getAllTours
-  })
-
+  const { data: tours, isLoading, error } = useTourQuery.useGetAllTours();
   if (isLoading) {
     return <div className="text-center">Carregando tours...</div>
   }
