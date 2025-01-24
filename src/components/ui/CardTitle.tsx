@@ -1,16 +1,11 @@
-import { cn } from "@/app/utils/lib"
-
-export const CardTitle = ({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLHeadingElement>) => {
+export default function CardTitle({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
-    <h3
-      className={cn(
-        "text-2xl font-semibold leading-none tracking-tight",
-        className
-      )}
-      {...props}
-    />
+    <h3 className="text-lg font-semibold leading-none tracking-tight">
+      {children}
+    </h3>
   )
 }
