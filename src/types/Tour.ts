@@ -1,12 +1,13 @@
 export type TourImage = {
   id: string;
   image: string;
-}
+};
 
 export type Tour = {
   id: string;
-  title: string;
+  name: string;
   description: string;
+  slug: string;
   price: number;
   image: string;
   status_promotion: boolean;
@@ -17,7 +18,7 @@ export type Driver = {
   id: string;
   name: string;
   vehicle: string;
-}
+};
 
 export type TourSchedule = {
   id: string;
@@ -27,4 +28,12 @@ export type TourSchedule = {
   time: string;
   available_seats: number;
   price: number;
-}
+};
+
+export type ReservationPeople = {
+  name: string;
+  cpf: string;
+  email: string;
+  phone: string;
+  quantity: number;
+};

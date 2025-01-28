@@ -1,22 +1,23 @@
-"use client"
+"use client";
 
-import Image from "next/image"
-import Card from "../ui/Card"
-import CardHeader from "../ui/CardHeader"
-import CardTitle from "../ui/CardTitle"
-import CardContent from "../ui/CardContent"
-import { ButtonCard } from "../ui/ButtonCard"
-import Link from "next/link"
-import { useTourQuery } from "@/hooks/useTourQuery"
+import Image from "next/image";
+import Card from "../ui/Card";
+import CardHeader from "../ui/CardHeader";
+import CardTitle from "../ui/CardTitle";
+import CardContent from "../ui/CardContent";
+import { ButtonCard } from "../ui/ButtonCard";
+import Link from "next/link";
+import { useTourQuery } from "@/hooks/useTourQuery";
 
 export const TourList = () => {
   const { data: tours, isLoading, error } = useTourQuery.useGetAllTours();
+
   if (isLoading) {
-    return <div className="text-center">Carregando tours...</div>
+    return <div className="text-center">Carregando tours...</div>;
   }
 
   if (error) {
-    return <div className="text-red-500">Erro ao carregar os tours.</div>
+    return <div className="text-red-500">Erro ao carregar os tours.</div>;
   }
 
   return (
@@ -25,8 +26,8 @@ export const TourList = () => {
         <Card key={tour.id}>
           <div className="relative w-full h-48">
             <Image
-              src={tour.image}
-              alt={tour.title}
+              src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${tour.images[0].image}`}
+              alt={tour.images[0].id}
               fill
               className="object-cover rounded-t-lg"
             />
@@ -37,21 +38,22 @@ export const TourList = () => {
             )}
           </div>
           <CardHeader>
-            <CardTitle>{tour.title}</CardTitle>
+            <CardTitle>{tour.name}</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-gray-600 mb-4 line-clamp-3">{tour.description}</p>
+            <p className="text-gray-600 mb-4 line-clamp-3">
+              {tour.description}
+            </p>
             <p className="text-lg font-bold">
-              R$ {tour.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+              R${" "}
+              {tour.price.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
             </p>
           </CardContent>
-          <Link href={`/tour/${tour.id}`}>
-            <ButtonCard className="text-white text-center ">
-              Comprar
-            </ButtonCard>
+          <Link href={`/tour/${tour.slug}`}>
+            <ButtonCard className="text-white text-center ">Comprar</ButtonCard>
           </Link>
         </Card>
       ))}
     </div>
-  )
-}
+  );
+};

@@ -1,9 +1,9 @@
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination } from 'swiper/modules';
-import Image from 'next/image';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper/modules";
+import Image from "next/image";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 interface TourImageCarouselProps {
   images: string[];
@@ -24,7 +24,7 @@ export const Carousel = ({ images, title }: TourImageCarouselProps) => {
         <SwiperSlide key={index}>
           <div className="relative w-full h-full">
             <Image
-              src={imageUrl}
+              src={process.env.NEXT_PUBLIC_IMAGE_URL + imageUrl}
               alt={`${title} - Imagem ${index + 1}`}
               fill
               className="object-cover"
@@ -33,5 +33,5 @@ export const Carousel = ({ images, title }: TourImageCarouselProps) => {
         </SwiperSlide>
       ))}
     </Swiper>
-  )
-}
+  );
+};
